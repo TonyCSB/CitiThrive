@@ -11,7 +11,7 @@ User=ubuntu
 # DynamicUser=yes
 # see http://0pointer.net/blog/dynamic-users-with-systemd.html
 RuntimeDirectory=gunicorn
-WorkingDirectory=/home/ubuntu/Documents/CitiThrive_backend
+WorkingDirectory=/home/ubuntu/Documents/CitiThrive
 ExecStart=/usr/bin/gunicorn "flask_app:create_app()" --reload
 ExecReload=/bin/kill -s HUP $MAINPID
 KillMode=mixed
