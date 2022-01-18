@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hello, CitiThrivers!</title>
+        <meta charset="utf-8"/>
+        <meta name="viewport"content="width=device-width, initial-scale=1, user-scalable=no"/>
+        <style type="text/css">
+            /* y-axis Overflow */
+            body::-webkit-scrollbar {
+                    display: none;
+            }
+            body::-webkit-scrollbar {
+                    width:0px;
+            }
+            body{
+                background-color: #FDE6CF;
+                align-items: center;
+            }
+        </style>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <td>编辑行业</td>
+                <td>
+                    <input type="file" id="file_to_edit_industry" onchange="upload_SwClass_file()">
+                </td>
+                <td>
+                    <input type="text" id="name_to_edit_industry"/>
+                </td>
+                <td>
+                    <select id="edit_industry">
+                        <option value ="1">ADD</option>
+                        <option value ="-1">DEL</option>
+                    </select>
+                </td>
+                <td><input type="submit" id="submit_to_edit_industry"></td>
+            </tr>
+
+            <tr>
+                <td>编辑企业</td>
+                <td>
+                    <input type="file" id="file_to_edit_enterprise" onchange="upload_SwClass_file_for_enterprise()">
+                </td>
+                <td>
+                    <input type="text" id="name_to_edit_enterprise" placeholder="企业名称"/>
+                    <input type="text" id="other_names_to_edit_enterprise" placeholder="@别称1@别称2..."/>
+                    <input type="text" id="industries_to_edit_enterprise" placeholder="@行业1@行业2..."/>
+                    <input type="text" id="stockcode_to_edit_enterprise" placeholder="股票代码"/>
+                </td>
+                <td>
+                    <select id="edit_enterprise">
+                        <option value ="1">ADD</option>
+                        <option value ="-1">DEL</option>
+                    </select>
+                </td>
+                <td><input type="submit" id="submit_to_edit_enterprise"></td>
+            </tr>
+            <tr>
+                <td>编辑ESG指标</td>
+                <td>
+                <input type="text" id="name_to_edit_ESGmetric" placeholder="指标名称"/></td>
+                <td>
+                    <textarea rows="4" cols="25" id="description_to_edit_ESGmetric" placeholder="指标描述" style="resize:none;"></textarea>
+                    <textarea rows="4" cols="25" id="application_to_edit_ESGmetric" placeholder="考察方法" style="resize:none;"></textarea>
+                    <textarea rows="4" cols="25" id="platform_to_edit_ESGmetric" placeholder="所属平台" style="resize:none;"></textarea>
+                </td>
+                <td>
+                    <input type="text" id="2nd_scope_to_edit_ESGmetric" placeholder="所属二级主题"/>
+                    <select id="1st_scope_to_edit_ESGmetric">
+                        <option value="1">(E)</option>
+                        <option value="2">(S)</option>
+                        <option value="3">(G)</option>
+                    </select>
+                </td>
+                <td><input type="submit" id="submit_to_edit_ESGmetric"></td>
+            </tr>
+        </table>
+        
+        <!--javascript-->
+        <script type="text/javascript" src="/public/js/jQuery-2.2.4.min.js"></script>
+        <script type="text/javascript">
+            // for ESGmetric
+            var name_to_edit_ESGmetric = "";
+            var description_to_edit_ESGmetric = "";
+            var application_to_edit_ESGmetric = "";
+            var platform_to_edit_ESGmetric = "";
+            var second_scope_to_edit_ESGmetric = "";
+            var first_scope_to_edit_ESGmetric = 1;
+            $("#name_to_edit_ESGmetric").change(function(){name_to_edit_ESGmetric = $("#name_to_edit_ESGmetric").val(); console.log(name_to_edit_ESGmetric);})
+            $("#description_to_edit_ESGmetric").change(function(){description_to_edit_ESGmetric = $("#description_to_edit_ESGmetric").val(); console.log(description_to_edit_ESGmetric);})
+            $("#application_to_edit_ESGmetric").change(function(){application_to_edit_ESGmetric = $("#application_to_edit_ESGmetric").val(); console.log(application_to_edit_ESGmetric);})
+            $("#platform_to_edit_ESGmetric").change(function(){platform_to_edit_ESGmetric = $("#platform_to_edit_ESGmetric").val(); console.log(platform_to_edit_ESGmetric);})
+            $("#2nd_scope_to_edit_ESGmetric").change(function(){second_scope_to_edit_ESGmetric = $("#2nd_scope_to_edit_ESGmetric").val(); console.log(second_scope_to_edit_ESGmetric);})
+            $("#1st_scope_to_edit_ESGmetric").change(function(){first_scope_to_edit_ESGmetric = $("#1st_scope_to_edit_ESGmetric").val(); console.log(first_scope_to_edit_ESGmetric);})
+            $("#submit_to_edit_ESGmetric").click(function(){
+                let formdata = new FormData();
+                formdata.append("name_to_edit_ESGmetric", name_to_edit_ESGmetric);
+                formdata.append("description_to_edit_ESGmetric", description_to_edit_ESGmetric);
+                formdata.append("application_to_edit_ESGmetric", application_to_edit_ESGmetric);
+                formdata.append("2nd_scope_to_edit_ESGmetric", second_scope_to_edit_ESGmetric);
+                formdata.append("1st_scope_to_edit_ESGmetric", first_scope_to_edit_ESGmetric);
+                formdata.append("platform_to_edit_ESGmetric", platform_to_edit_ESGmetric);
+
+                $.ajax({
+                    url:"/admin-add-ESGmetric",
+                    type:"POST",
+                    data:formdata,
+                    processData:false,
+                    contentType:false,
+                    success: function(res){
+                        res = eval("(" + res + ")");
+                            if (res.state > 0)
+                                window.alert("成功添加 ESG 指标 `"+name_to_edit_ESGmetric+"`!");
+                    }
+                })
+            })
+
+            // Global variables
+            var action_to_edit_industry = 1;
+            var name_to_edit_industry = "";
+            var file_to_edit_industry = -1;
+            $("#edit_industry").change(function(){
+                action_to_edit_industry = $("#edit_industry").val();
+                // console.log(action_to_edit_industry);
+            })
+
+            $("#name_to_edit_industry").change(function(){
+                name_to_edit_industry = $("#name_to_edit_industry").val();
+                // console.log(name_to_edit_industry);
+            })
+
+            function upload_SwClass_file(){
+                file_to_edit_industry = $("#file_to_edit_industry").prop("files")[0];
+                // console.log(file_to_edit_industry);
+            };
+
+            $("#submit_to_edit_industry").click(function(){
+                if (file_to_edit_industry == -1 && name_to_edit_industry.length == 0)
+                    window.alert("请至少指定待编辑的行业名称");
+                else{
+                    let formdata = new FormData();
+                    formdata.append('name', name_to_edit_industry);
+                    formdata.append('action', action_to_edit_industry);
+                    formdata.append('file', file_to_edit_industry);
+
+                    $.ajax({
+                        url:"/admin-update-industry",
+                        type:"POST",
+                        data: formdata,
+                        processData: false, 
+                        contentType: false, 
+                        success: function(res){
+                            res = eval("(" + res + ")");
+                            if (res.state > 0)
+                                window.alert("success!");
+                        }
+                    })
+                }
+            })
+
+            var file_to_edit_enterprise = -1;
+            var action_to_edit_enterprise = 1;
+            var name_to_edit_enterprise = "";
+            var other_names_to_edit_enterprise = "";
+            var industries_to_edit_enterprise = "";
+            var stockcode_to_edit_enterprise = "";
+
+            function upload_SwClass_file_for_enterprise(){
+                file_to_edit_enterprise = $("#file_to_edit_enterprise").prop("files")[0];
+                // console.log(file_to_edit_enterprise);
+            };
+
+            $("#submit_to_edit_enterprise").click(function(){
+                if (file_to_edit_enterprise == -1)
+                    window.alert("请至少指定待编辑的企业名称");
+                else{
+                    let formdata = new FormData();
+                    formdata.append('file', file_to_edit_enterprise);
+
+                    $.ajax({
+                        url:"/admin-update-enterprise",
+                        type:"POST",
+                        data: formdata,
+                        processData: false, 
+                        contentType: false, 
+                        success: function(res){
+                            res = eval("(" + res + ")");
+                            if (res.state > 0)
+                                window.alert("success!");
+                        }
+                    })
+                }
+            })
+        </script>
+    </body>
+</html>
