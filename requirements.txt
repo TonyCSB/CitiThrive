@@ -1,2 +1,5 @@
 flask
 flask-talisman
+flask-login
+flask-mongoengine
+flask-bcrypt
