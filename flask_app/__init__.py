@@ -12,7 +12,8 @@ from .homepage.routes import homepage
 from .users.routes import users
 
 CSP = {
-    'default-src': ['\'self\'']
+    'default-src': ['\'self\''],
+    'img-src': ['\'self\'', 'data:']
 }
 
 
