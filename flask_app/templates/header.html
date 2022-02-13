@@ -13,10 +13,46 @@
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="{{ url_for('homepage.index') }}" class="nav-link px-2 text-secondary">Home</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle px-2 link-secondary" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        资讯搜索
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">资讯搜索</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle px-2 link-secondary" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        ESG评估
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">ESG评级</a>
+                        <a class="dropdown-item" href="#">ESG教育</a>
+                        <a class="dropdown-item" href="#">ESG产品</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">公司选址</a>
+                        <a class="dropdown-item" href="#">选股推荐</a>
+                    </div>
+                </li><li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle px-2 link-secondary" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        企业动态
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">企业动态</a>
+                    </div>
+                </li><li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle px-2 link-secondary" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        行业动态
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">行业动态</a>
+                    </div>
+                </li>
+                <li><a href="#" class="nav-link px-2 link-secondary">About Us</a></li>
             </ul>
 
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
@@ -24,17 +60,17 @@
             </form>
 
             {% if current_user.is_authenticated %}
-                <div class="text-end">
-                    <a href="{{ url_for('users.account') }}" class="btn btn-outline-light me-2">Account</a>
-                    <a href="{{ url_for('users.logout') }}" class="btn btn-warning">Logout</a>
-                </div>
+            <div class="text-end">
+                <a href="{{ url_for('users.account') }}" class="btn btn-outline-light me-2">Account</a>
+                <a href="{{ url_for('users.logout') }}" class="btn btn-warning">Logout</a>
+            </div>
             {% else %}
-                <div class="text-end">
-                    <a href="{{ url_for('users.login') }}" class="btn btn-outline-light me-2">Login</a>
-                    <a href="{{ url_for('users.register') }}" class="btn btn-warning">Register</a>
-                </div>
+            <div class="text-end">
+                <a href="{{ url_for('users.login') }}" class="btn btn-outline-light me-2">Login</a>
+                <a href="{{ url_for('users.register') }}" class="btn btn-warning">Register</a>
+            </div>
             {% endif %}
-                        
+
         </div>
     </div>
 </header>
