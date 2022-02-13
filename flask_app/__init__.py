@@ -3,7 +3,7 @@ from flask_mongoengine import MongoEngine
 
 db = MongoEngine()
 
-from .test.routes import test
+from .homepage.routes import homepage
 
 
 def page_not_found(e):
@@ -19,6 +19,6 @@ def create_app():
 
     app.register_error_handler(404, page_not_found)
 
-    app.register_blueprint(test)
+    app.register_blueprint(homepage)
 
     return app
