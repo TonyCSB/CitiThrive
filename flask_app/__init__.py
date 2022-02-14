@@ -13,7 +13,8 @@ from .users.routes import users
 
 CSP = {
     'default-src': ['\'self\''],
-    'img-src': ['\'self\'', 'data:']
+    'img-src': ['\'self\'', 'data:'],
+    'style-src': ['\'self\'', 'cdnjs.cloudflare.com']
 }
 
 

@@ -3,3 +3,4 @@ flask-talisman
 flask-login
 flask-mongoengine
 flask-bcrypt
+flask-wtf

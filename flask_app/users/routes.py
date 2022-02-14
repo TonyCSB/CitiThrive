@@ -3,13 +3,18 @@ from flask_login import current_user, login_required, login_user, logout_user
 
 from .. import bcrypt
 from ..models import User
+from ..forms import LoginForm
 
 users = Blueprint("users", __name__)
 
 
-@users.route("/register", methods=["GET", "POST"])
-def register():
-    return render_template("plaintext.html", content="User Registration")
+@users.route("/register/business", methods=["GET", "POST"])
+def register_business():
+    return render_template("plaintext.html", content="Business User Registration")
+
+@users.route("/register/personal", methods=["GET", "POST"])
+def register_personal():
+    return render_template("plaintext.html", content="Consumer User Registration")
 
 
 @users.route("/login", methods=["GET", "POST"])
@@ -17,7 +22,12 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for("account"))
 
-    return render_template("plaintext.html", content="User Login")
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        return render_template("login.html", form=form)
+
+    return render_template("login.html", form=form)
 
 
 @users.route("/logout", methods=["GET", "POST"])

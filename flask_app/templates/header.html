@@ -68,13 +68,13 @@
             </div>
             {% else %}
             <div class="text-end">
-                <a href="{{ url_for('users.login') }}" class="btn btn-outline-light me-2">登录</a>
+                <a href="{{ url_for('users.login') }}" class="btn btn-outline-light me-2">登陆</a>
                 <div class="btn-group">
                     <a data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                         class="btn btn-warning dropdown-toggle">注册</a>
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
-                        <a class="dropdown-item" href="#">企业账号注册</a>
-                        <a class="dropdown-item" href="#">个人账号注册</a>
+                        <a class="dropdown-item" href="{{ url_for('users.register_business') }}">企业账号注册</a>
+                        <a class="dropdown-item" href="{{ url_for('users.register_personal') }}">个人账号注册</a>
                     </div>
                 </div>
             </div>
