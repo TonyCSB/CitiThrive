@@ -5,12 +5,41 @@ from wtforms.validators import (
     InputRequired,
     Length,
     Email,
-    EqualTo
+    EqualTo,
+    ValidationError
 )
+from id_validator import validator
 
 
 class LoginForm(FlaskForm):
     accountType = RadioField("Account Type", validators=[InputRequired()], choices=[(0, "企业账号"), (1, "个人账号")], default=0)
-    username = StringField("Username", validators=[InputRequired()])
-    password = PasswordField("Password", validators=[InputRequired()])
-    submit = SubmitField("Login")
+    username = StringField("用户名", validators=[InputRequired()])
+    password = PasswordField("密码", validators=[InputRequired()])
+    submit = SubmitField("登陆")
+
+
+class RegistrationBusinessForm(FlaskForm):
+    username = StringField("用户名", validators=[InputRequired()], render_kw={'class': 'form-control', 'placeholder': 'username'})
+    email = StringField("电子邮箱", validators=[InputRequired(), Email()], render_kw={'class': 'form-control', 'placeholder': 'email'})
+    companyName = StringField("公司名称", validators=[InputRequired()], render_kw={'class': 'form-control', 'placeholder': 'XX公司'})
+    stockCode = StringField("股票代码", render_kw={'class': 'form-control', 'placeholder': 'AAPL'})
+
+    password = PasswordField("密码", validators=[InputRequired(), Length(min=8)], render_kw={'class': 'form-control', 'placeholder': 'password'})
+    confirm_pwd = PasswordField("请确认密码", validators=[InputRequired(), EqualTo("password")], render_kw={'class': 'form-control', 'placeholder': 'password'})
+
+    submit = SubmitField("注册", render_kw={'class': 'btn btn-primary btn-login text-uppercase fw-bold'})
+
+
+class RegistrationPersonalForm(FlaskForm):
+    username = StringField("用户名", validators=[InputRequired()], render_kw={'class': 'form-control', 'placeholder': 'username'})
+    email = StringField("电子邮箱", validators=[InputRequired(), Email()], render_kw={'class': 'form-control', 'placeholder': 'email'})
+    id = StringField("身份证号码", validators=[InputRequired(), Length(min=15, max=18)], render_kw={'class': 'form-control', 'placeholder': '310110194910011008'})
+
+    password = PasswordField("密码", validators=[InputRequired(), Length(min=8)], render_kw={'class': 'form-control', 'placeholder': 'password'})
+    confirm_pwd = PasswordField("请确认密码", validators=[InputRequired(), EqualTo("password")], render_kw={'class': 'form-control', 'placeholder': 'password'})
+
+    submit = SubmitField("注册", render_kw={'class': 'btn btn-primary btn-login text-uppercase fw-bold'})
+
+    def validate_id(form, field):
+        if not validator.is_valid(field.data):
+            raise ValidationError("身份证号码校验失败")

@@ -32,9 +32,9 @@
                             </div>
                         </div>
 
-                        <div class="form-floating mb-3">
+                        <div class="form-floating mb-3 required">
                             {{ form.username(class="form-control", placeholder="username") }}
-                            {{ form.username.label("用户名") }}
+                            {{ form.username.label(class="control-label") }}
 
                             {% if form.username.errors %}
                             <div class="alert alert-warning" role="alert">
@@ -44,9 +44,9 @@
                             </div>
                             {% endif %}
                         </div>
-                        <div class="form-floating mb-3">
+                        <div class="form-floating mb-3 required">
                             {{ form.password(class="form-control", placeholder="password") }}
-                            {{ form.password.label("密码") }}
+                            {{ form.password.label(class="control-label") }}
 
                             {% if form.password.errors %}
                             <div class="alert alert-warning" role="alert">
@@ -64,7 +64,7 @@
                             </label>
                         </div> -->
                         <div class="d-grid">
-                            <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">登陆</button>
+                            {{ form.submit(class="btn btn-primary btn-login text-uppercase fw-bold") }}
                         </div>
                         <hr class="my-4">
                     </form>

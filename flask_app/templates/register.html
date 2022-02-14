@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet">
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card border-0 shadow rounded-3 my-5">
+                <div class="card-body p-4 p-sm-5">
+                    <h5 class="card-title text-center mb-5 fw-light fs-5">{{ formTitle }}</h5>
+                    <form action="" method="post">
+                        {{ form.csrf_token }}
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-danger text-center">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+
+                        {% for field in form %}
+                        {% if field.type == 'StringField' or field.type == 'PasswordField' %}
+                        <div class="form-floating mb-3 {% if field.flags.required %}required{% endif %}">
+                            {{ field() }}
+                            {{ field.label(class="control-label") }}
+
+                            {% if field.errors %}
+                            <div class="alert alert-warning" role="alert">
+                                {% for error in field.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% elif field.type == 'SubmitField' %}
+                        <div class="d-grid">
+                            {{ field() }}
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        <hr class="my-4">
+                    </form>
+                    {% if formTitle == "注册个人账号" %}
+                    <div class="d-grid text-uppercase fw-bold">
+                        <a class="btn btn-2b" href="{{ url_for('users.register_business') }}">
+                            切换至企业账户注册
+                        </a>
+                    </div>
+                    {% else %}
+                    <div class="d-grid text-uppercase fw-bold">
+                        <a class="btn btn-2c" href="{{ url_for('users.register_personal') }}">
+                            切换至个人账户注册
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
