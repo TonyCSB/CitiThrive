@@ -25,7 +25,7 @@
                         {% for field in form %}
                         {% if field.type == 'StringField' or field.type == 'PasswordField' %}
                         <div class="form-floating mb-3 {% if field.flags.required %}required{% endif %}">
-                            {{ field() }}
+                            {{ field(class='form-control') }}
                             {{ field.label(class="control-label") }}
 
                             {% if field.errors %}
