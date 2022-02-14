@@ -44,19 +44,26 @@
                         {% endfor %}
                         <hr class="my-4">
                     </form>
+                    <div class="row">
                     {% if formTitle == "注册个人账号" %}
-                    <div class="d-grid text-uppercase fw-bold">
+                    <div class="d-grid text-uppercase col fw-bold">
                         <a class="btn btn-2b" href="{{ url_for('users.register_business') }}">
-                            切换至企业账户注册
+                            切换至企业账号注册
                         </a>
                     </div>
                     {% else %}
-                    <div class="d-grid text-uppercase fw-bold">
+                    <div class="d-grid text-uppercase col fw-bold">
                         <a class="btn btn-2c" href="{{ url_for('users.register_personal') }}">
-                            切换至个人账户注册
+                            切换至个人账号注册
                         </a>
                     </div>
                     {% endif %}
+                    <div class="d-grid text-uppercase col fw-bold">
+                        <a class="btn btn-warning" href="{{ url_for('users.login') }}">
+                            登陆账号
+                        </a>
+                    </div>
+                </div>
                 </div>
             </div>
         </div>
