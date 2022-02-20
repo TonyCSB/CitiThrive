@@ -13,8 +13,8 @@ from .users.routes import users
 
 CSP = {
     'default-src': ['\'self\''],
-    'img-src': ['\'self\'', 'data:'],
-    'script-src': ['\'self\'', 'googletagmanager.com']
+    'img-src': ['\'self\'', 'data:', 'www.googletagmanager.com'],
+    'script-src': ['\'self\'', 'www.googletagmanager.com']
 }
 
 
