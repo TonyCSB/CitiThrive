@@ -12,7 +12,7 @@ from id_validator import validator
 
 
 class LoginForm(FlaskForm):
-    accountType = RadioField("Account Type", validators=[InputRequired()], choices=[(0, "企业账号"), (1, "个人账号")], default=0)
+    accountType = RadioField("Account Type", validators=[InputRequired()], choices=[("business", "企业账号"), ("consumer", "个人账号")], default=0)
     username = StringField("用户名", validators=[InputRequired()])
     password = PasswordField("密码", validators=[InputRequired()])
     submit = SubmitField("登陆")
@@ -30,7 +30,7 @@ class RegistrationBusinessForm(FlaskForm):
     submit = SubmitField("注册", render_kw={'class': 'btn btn-primary btn-login text-uppercase fw-bold'})
 
 
-class RegistrationPersonalForm(FlaskForm):
+class RegistrationConsumerForm(FlaskForm):
     username = StringField("用户名", validators=[InputRequired()], render_kw={'placeholder': 'username'})
     email = StringField("电子邮箱", validators=[InputRequired(), Email()], render_kw={'placeholder': 'email'})
     id = StringField("身份证号码", validators=[InputRequired(), Length(min=15, max=18)], render_kw={'placeholder': '310110194910011008'})

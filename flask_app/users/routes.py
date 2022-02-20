@@ -1,9 +1,9 @@
-from flask import Blueprint, redirect, url_for, render_template, flash
+from flask import Blueprint, redirect, url_for, render_template, flash, request
 from flask_login import current_user, login_required, login_user, logout_user
 
 from .. import bcrypt
-from ..models import User
-from ..forms import LoginForm, RegistrationPersonalForm, RegistrationBusinessForm
+from ..models import User, ConsumerUser, BusinessUser
+from ..forms import LoginForm, RegistrationConsumerForm, RegistrationBusinessForm
 
 users = Blueprint("users", __name__)
 
@@ -12,26 +12,44 @@ users = Blueprint("users", __name__)
 def register_business():
     if current_user.is_authenticated:
         logout_user()
-        return redirect(url_for("users.register_personal"))
+        return redirect(url_for("users.register_consumer"))
 
     form = RegistrationBusinessForm()
 
     if form.validate_on_submit():
-        return render_template("register.html", form=form)
+        # TODO: Password validation
+
+        hashed = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        detail = BusinessUser(idCode=form.id.data, companyName=form.companyName.data, stockCode=form.stockCode.data)
+        detail.save()
+
+        user = User(username=form.username.data, email=form.email.data, password=hashed, type="business", detail=detail)
+        user.save()
+
+        return redirect(url_for("users.login"))
 
     return render_template("register.html", form=form, formTitle="注册企业账号")
 
 
-@users.route("/register/personal", methods=["GET", "POST"])
-def register_personal():
+@users.route("/register/consumer", methods=["GET", "POST"])
+def register_consumer():
     if current_user.is_authenticated:
         logout_user()
-        return redirect(url_for("users.register_personal"))
+        return redirect(url_for("users.register_consumer"))
 
-    form = RegistrationPersonalForm()
+    form = RegistrationConsumerForm()
 
     if form.validate_on_submit():
-        return render_template("register.html", form=form)
+        # TODO: Password validation
+
+        hashed = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        detail = ConsumerUser(idCode=form.id.data)
+        detail.save()
+
+        user = User(username=form.username.data, email=form.email.data, password=hashed, type="consumer", detail=detail)
+        user.save()
+
+        return redirect(url_for("users.login"))
 
     return render_template("register.html", form=form, formTitle="注册个人账号")
 
@@ -44,6 +62,22 @@ def login():
     form = LoginForm()
 
     if form.validate_on_submit():
+        user = User.objects(username=form.username.data).first()
+
+        if user is None:
+            flash("Username does not exist!")
+        elif not bcrypt.check_password_hash(user.password, form.password.data):
+            flash("Username/Password incorrect!")
+        elif form.accountType.data != user.type:
+            flash("请选择正确的账号类别")
+        else:
+            login_user(user)
+
+            if request.args.get("next") is not None:
+                return redirect(request.args.get("next"))
+            else:
+                return redirect(url_for("homepage.index"))
+
         return render_template("login.html", form=form)
 
     return render_template("login.html", form=form)

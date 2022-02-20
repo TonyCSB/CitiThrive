@@ -7,10 +7,22 @@ def load_user(user_id):
     return User.objects(id=user_id).first()
 
 
+class ConsumerUser(db.Document):
+    idCode = db.StringField(required=True)
+
+
+class BusinessUser(db.Document):
+    idCode = db.StringField(required=True)
+    companyName = db.StringField(required=True)
+    stockCode = db.StringField()
+
+
 class User(db.Document, UserMixin):
     username = db.StringField(required=True, unique=True)
     email = db.EmailField(required=True, unique=True)
     password = db.StringField(required=True)
+    type = db.StringField(required=True)
+    detail = db.GenericReferenceField(required=True)
 
     def get_id(self):
         return str(self.id)
