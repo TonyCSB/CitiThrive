@@ -12,7 +12,7 @@ from id_validator import validator
 
 
 class LoginForm(FlaskForm):
-    accountType = RadioField("Account Type", validators=[InputRequired()], choices=[("business", "企业账号"), ("consumer", "个人账号")], default=0)
+    accountType = RadioField("Account Type", validators=[InputRequired()], choices=[("business", "企业账号"), ("consumer", "个人账号")], default="business")
     username = StringField("用户名", validators=[InputRequired()])
     password = PasswordField("密码", validators=[InputRequired()])
     submit = SubmitField("登陆")
