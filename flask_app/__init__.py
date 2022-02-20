@@ -15,7 +15,7 @@ CSP = {
     'default-src': ['\'self\''],
     'img-src': ['\'self\'', 'data:', 'www.googletagmanager.com'],
     'script-src': ['\'self\'', 'www.googletagmanager.com'],
-    'connect-src': ['www.google-analytics.com']
+    'connect-src': ['www.google-analytics.com', 'analytics.google.com', 'stats.g.doubleclick.net']
 }
 
 
