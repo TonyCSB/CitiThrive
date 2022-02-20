@@ -1,3 +1,5 @@
+from distutils.log import warn
+from tabnanny import check
 from flask import Blueprint, redirect, url_for, render_template, flash, request
 from flask_login import current_user, login_required, login_user, logout_user
 
@@ -6,6 +8,19 @@ from ..models import User, ConsumerUser, BusinessUser
 from ..forms import LoginForm, RegistrationConsumerForm, RegistrationBusinessForm
 
 users = Blueprint("users", __name__)
+
+
+def check_no_duplicate(form):
+    warning = []
+    if User.objects(username=form.username.data).first() is not None:
+        warning.append("用户名")
+    if User.objects(email=form.email.data).first() is not None:
+        warning.append("电子邮箱")
+    if len(warning) > 0:
+        flash("/".join(warning) + "已被使用")
+        return True
+
+    return False
 
 
 @users.route("/register/business", methods=["GET", "POST"])
@@ -17,6 +32,8 @@ def register_business():
     form = RegistrationBusinessForm()
 
     if form.validate_on_submit():
+        if check_no_duplicate(form):
+            return render_template("register.html", form=form, formTitle="注册企业账号")
         # TODO: Password validation
 
         hashed = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -40,6 +57,9 @@ def register_consumer():
     form = RegistrationConsumerForm()
 
     if form.validate_on_submit():
+        if check_no_duplicate(form):
+            return render_template("register.html", form=form, formTitle="注册个人账号")
+
         # TODO: Password validation
 
         hashed = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -64,10 +84,8 @@ def login():
     if form.validate_on_submit():
         user = User.objects(username=form.username.data).first()
 
-        if user is None:
-            flash("Username does not exist!")
-        elif not bcrypt.check_password_hash(user.password, form.password.data):
-            flash("Username/Password incorrect!")
+        if user is None or not bcrypt.check_password_hash(user.password, form.password.data):
+            flash("用户名/密码不正确")
         elif form.accountType.data != user.type:
             flash("请选择正确的账号类别")
         else:
