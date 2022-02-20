@@ -17,7 +17,6 @@ def favicon():
 @homepage.route('/report-csp-violations', methods=['POST'])
 def report():
     content = request.get_json(force=True)
-    print(json.dumps(content, indent=4, sort_keys=True))
     with open("csp.log", "a") as f:
         print(json.dumps(content, indent=4, sort_keys=True), file=f)
     response = make_response()
