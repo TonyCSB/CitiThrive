@@ -13,8 +13,8 @@ from .users.routes import users
 
 CSP = {
     'default-src': ['\'self\''],
-    'img-src': ['\'self\'', 'data:', 'www.googletagmanager.com'],
-    'script-src': ['\'self\'', 'www.googletagmanager.com'],
+    'img-src': ['\'self\'', 'data:', 'www.googletagmanager.com', 'stats.g.doubleclick.net'],
+    'script-src': ['\'self\'', 'www.googletagmanager.com', '*.google-analytics.com'],
     'connect-src': ['www.google-analytics.com', 'analytics.google.com', 'stats.g.doubleclick.net']
 }
 
@@ -31,7 +31,7 @@ def create_app():
     db.init_app(app)
     login_manager.init_app(app)
     bcrypt.init_app(app)
-    Talisman(app, content_security_policy=CSP, force_https=False, content_security_policy_nonce_in=['script-src'])
+    Talisman(app, content_security_policy=CSP, force_https=False, content_security_policy_nonce_in=['script-src'], content_security_policy_report_uri='/report-csp-violations')
 
     app.register_error_handler(404, page_not_found)
 
