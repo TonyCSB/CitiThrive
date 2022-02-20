@@ -30,7 +30,7 @@ def create_app():
     db.init_app(app)
     login_manager.init_app(app)
     bcrypt.init_app(app)
-    Talisman(app, content_security_policy=CSP, force_https=False)
+    Talisman(app, content_security_policy=CSP, force_https=False, content_security_policy_nonce_in=['script-src'])
 
     app.register_error_handler(404, page_not_found)
 

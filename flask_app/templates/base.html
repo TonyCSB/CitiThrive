@@ -17,7 +17,16 @@
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QTXFW9W4Z0"></script>
-    <script src="{{ url_for('static', filename='js/gtag.js') }}"></script>
+    <script nonce="{{ csp_nonce() }}">
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-QTXFW9W4Z0');
+    </script>
 
     {% if title %}
     <title>{{ title }}</title>
