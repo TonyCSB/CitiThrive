@@ -33,7 +33,7 @@ def register_business():
 
     if form.validate_on_submit():
         if check_no_duplicate(form):
-            return render_template("register.html", form=form, formTitle="注册企业账号")
+            return render_template("register.html", form=form, title="注册企业账号")
         # TODO: Password validation
 
         hashed = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -45,7 +45,7 @@ def register_business():
 
         return redirect(url_for("users.login"))
 
-    return render_template("register.html", form=form, formTitle="注册企业账号")
+    return render_template("register.html", form=form, title="注册企业账号")
 
 
 @users.route("/register/consumer", methods=["GET", "POST"])
@@ -58,7 +58,7 @@ def register_consumer():
 
     if form.validate_on_submit():
         if check_no_duplicate(form):
-            return render_template("register.html", form=form, formTitle="注册个人账号")
+            return render_template("register.html", form=form, title="注册个人账号")
 
         # TODO: Password validation
 
@@ -71,7 +71,7 @@ def register_consumer():
 
         return redirect(url_for("users.login"))
 
-    return render_template("register.html", form=form, formTitle="注册个人账号")
+    return render_template("register.html", form=form, title="注册个人账号")
 
 
 @users.route("/login", methods=["GET", "POST"])
@@ -96,9 +96,9 @@ def login():
             else:
                 return redirect(url_for("homepage.index"))
 
-        return render_template("login.html", form=form)
+        return render_template("login.html", form=form, title="登陆")
 
-    return render_template("login.html", form=form)
+    return render_template("login.html", form=form, title="登陆")
 
 
 @users.route("/logout", methods=["GET", "POST"])

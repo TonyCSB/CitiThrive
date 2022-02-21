@@ -9,7 +9,7 @@
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
             <div class="card border-0 shadow rounded-3 my-5">
                 <div class="card-body p-4 p-sm-5">
-                    <h5 class="card-title text-center mb-5 fw-light fs-5">{{ formTitle }}</h5>
+                    <h5 class="card-title text-center mb-5 fw-light fs-5">{{ title }}</h5>
                     <form action="" method="post">
                         {{ form.csrf_token }}
                         {% with messages = get_flashed_messages() %}
@@ -45,7 +45,7 @@
                         <hr class="my-4">
                     </form>
                     <div class="row">
-                    {% if formTitle == "注册个人账号" %}
+                    {% if title == "注册个人账号" %}
                     <div class="d-grid text-uppercase col fw-bold">
                         <a class="btn btn-2b" href="{{ url_for('users.register_business') }}">
                             切换至企业账号注册
