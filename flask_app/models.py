@@ -12,7 +12,6 @@ class ConsumerUser(db.Document):
 
 
 class BusinessUser(db.Document):
-    idCode = db.StringField(required=True)
     companyName = db.StringField(required=True)
     stockCode = db.StringField()
 
