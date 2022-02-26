@@ -37,7 +37,7 @@ def register_business():
         # TODO: Password validation
 
         hashed = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        detail = BusinessUser(idCode=form.id.data, companyName=form.companyName.data, stockCode=form.stockCode.data)
+        detail = BusinessUser(companyName=form.companyName.data, stockCode=form.stockCode.data)
         detail.save()
 
         user = User(username=form.username.data, email=form.email.data, password=hashed, type="business", detail=detail)
