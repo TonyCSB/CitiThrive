@@ -14,7 +14,7 @@ from .users.routes import users
 CSP = {
     'default-src': ['\'self\''],
     'img-src': ['\'self\'', 'data:', 'www.googletagmanager.com', 'stats.g.doubleclick.net'],
-    'script-src': ['\'self\'', 'www.googletagmanager.com', '*.google-analytics.com'],
+    'script-src': ['\'self\'', '\'strict-dynamic\''],
     'connect-src': ['www.google-analytics.com', 'analytics.google.com', 'stats.g.doubleclick.net']
 }
 
