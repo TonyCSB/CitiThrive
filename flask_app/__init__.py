@@ -16,8 +16,7 @@ CSP = {
     'img-src': ['\'self\'', 'data:', 'www.googletagmanager.com', 'stats.g.doubleclick.net'],
     'script-src': ['\'self\'', '\'strict-dynamic\''],
     'connect-src': ['www.google-analytics.com', 'analytics.google.com', 'stats.g.doubleclick.net'],
-    'base-uri': ['\'self\''],
-    'form-action': ['\'self\'']
+    'base-uri': ['\'self\'']
 }
 
 
